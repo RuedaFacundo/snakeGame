@@ -75,21 +75,21 @@
 <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header backgroundModal">
         <h3 class="modal-title" id="ModalLabel">¡Welcome!</h3>
       </div>
-      <div class="modal-body">
+      <div class="modal-body backgroundModal">
         <form class="row g-3 needs-validation" novalidate>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label for="name" class="form-label">Enter Your Name</label>
-            <input type="text" class="form-control" id="name" required>
+            <input type="text" class="form-control input" id="name" required>
             <div class="invalid-feedback">Please provide a valid name.</div>
             <div class="valid-feedback">Ok</div>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="submit" id="botonModal"  class="btn btn-primary">Start !!</button>
+      <div class="modal-footer backgroundModal">
+        <button type="submit" id="botonModal"  class="btnModal">Start !!</button>
       </div>
       </div>
     </div>
@@ -99,18 +99,18 @@
 <div class="modal fade" id="ModalCierre" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header backgroundModal">
         <h3 class="modal-title" id="nameModalFinal"></h3>
       </div>
-      <div class="modal-body">
+      <div class="modal-body backgroundModal">
         <form class="row g-3 needs-validation" novalidate>
-          <div class="col-md-6">
-            <label id="scoreFinal" class="form-label"></label>
+          <div class="col-md-12">
+            <label id="scoreFinal" class="form-label" style="color: #4C4C6D; font-size: 30px"></label>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" id="buttonClose" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+      <div class="modal-footer backgroundModal">
+        <button type="button" id="buttonClose" class="btnModal" data-bs-dismiss="modal" >Close</button>
       </div>
       </div>
     </div>

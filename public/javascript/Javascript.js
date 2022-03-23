@@ -10,7 +10,7 @@ let scoreDiv = document.getElementById('score');
 let modalCierre = new bootstrap.Modal(document.getElementById('ModalCierre'), {});
 let buttonClose = document.getElementById('buttonClose');
 let namePlayer = "";
-let scoreFinal;
+let scoreFinal = 0;
 
 /// Variables
 let adress; 
