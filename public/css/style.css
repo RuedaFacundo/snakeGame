@@ -106,7 +106,7 @@ canvas {
     height: 50px;
 }
 
-.active {
+.boton:hover {
     transform: translateY(4px);
     border: none;
 }
@@ -139,4 +139,13 @@ canvas {
 .input {
     background-color: #DCEDC8 !important;
     border-color: #4C4C6D !important;
+}
+
+.active {
+    transform: translateY(4px);
+    border: none;
+}
+
+.titulo {
+    font-size: 35px;
 }

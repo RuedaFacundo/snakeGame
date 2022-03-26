@@ -58,11 +58,29 @@
               Score:
             </div>
           </div>
-          <div class="joystick" class="joystick">
+          <div class="joystick">
               <button id="superior" class="boton">&#8593</button>
               <button id="fondo" class="boton">&#8595</button>
               <button id="izquierda" class="boton">&#8592</button>
               <button id="derecha" class="boton">&#8594</button>
+          </div>
+          <div class="scoreContainer">
+            <div class="score" id="ranking" style="margin-bottom: 25px;">
+              Ranking
+            </div>
+          </div>
+          <div>
+            <table class="table table-success table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col-2">Nº</th>
+                  <th scope="col-4">Name</th>
+                  <th scope="col-4">Score</th>
+                </tr>
+              </thead>
+              <tbody id="table">
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -72,7 +90,7 @@
   </section>
 
 <!-- Modal de ingreso al juego-->
-<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+<div class="modal fade" id="Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header backgroundModal">
@@ -96,11 +114,12 @@
   </div>
 
   <!-- Modal de final del juego-->
-<div class="modal fade" id="ModalCierre" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalCierre" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header backgroundModal">
         <h3 class="modal-title" id="nameModalFinal"></h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body backgroundModal">
         <form class="row g-3 needs-validation" novalidate>
