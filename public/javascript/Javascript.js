@@ -1,13 +1,13 @@
-let papel = document.querySelector("canvas");
-let context = papel.getContext("2d");
+let paper = document.querySelector("canvas");
+let context = paper.getContext("2d");
 var modal = new bootstrap.Modal(document.getElementById('Modal'), {})
-let botonModal = document.getElementById('botonModal');
-let superior = document.getElementById('superior');
-let fondo = document.getElementById('fondo');
-let izquierda = document.getElementById('izquierda');
-let derecha = document.getElementById('derecha');
+let buttonModal = document.getElementById('buttonModal');
+let up = document.getElementById('up');
+let down = document.getElementById('down');
+let left = document.getElementById('left');
+let right = document.getElementById('right');
 let scoreDiv = document.getElementById('score');
-let modalCierre = new bootstrap.Modal(document.getElementById('ModalCierre'), {});
+let gameOver = new bootstrap.Modal(document.getElementById('gameOver'), {});
 let buttonClose = document.getElementById('buttonClose');
 let game = document.getElementById('game');
 let error = document.getElementById('error');
@@ -16,9 +16,9 @@ let scoreFinal = 0;
 
 // Variables
 let direction; 
-const INTERVALO = 80;
-const PESO = 10;
-const ANCHO = 500;
+const INTERVAL = 80;
+const WEIGHT = 10;
+const WIDTH = 500;
 let score = 1;
 
 // Objetos
@@ -45,26 +45,26 @@ function Person(name, score) {
 let arrayPersons = new Array();
 
 // Eventos para los botones de movimiento
-superior.addEventListener('click', function() {clickBtn(superior); joystick(0, -1); }) 
-fondo.addEventListener('click', function() {clickBtn(fondo); joystick(0, 1) }) 
-izquierda.addEventListener('click', function() {clickBtn(izquierda); joystick(-1, 0) }) 
-derecha.addEventListener('click', function() {clickBtn(derecha); joystick(1, 0) })
+up.addEventListener('click', function() {clickBtn(up); joystick(0, -1); }) 
+down.addEventListener('click', function() {clickBtn(down); joystick(0, 1) }) 
+left.addEventListener('click', function() {clickBtn(left); joystick(-1, 0) }) 
+right.addEventListener('click', function() {clickBtn(right); joystick(1, 0) })
 
 function joystick (dx, dy) {
     direction = [dx, dy]
     const [x, y] = direction
-    if(-x !== controles.direccion.x && -y !== controles.direccion.y){
-        controles.direccion.x = x;
-        controles.direccion.y = y;
+    if(-x !== controls.direccion.x && -y !== controls.direccion.y){
+        controls.direccion.x = x;
+        controls.direccion.y = y;
     }
 }
 
-let controles = {
+let controls = {
     direccion: {x:1, y:0}, 
-    bicho:[{x:0, y:0}], 
-    victima:{x:0, y:250}, 
-    jugando: false, 
-    crecimiento: 0
+    snake:[{x:0, y:0}], 
+    victim:{x:0, y:250}, 
+    playing: false, 
+    increase: 0
 }
 
 // detectar cuando se apreta una tecla y hacer un condicional para no vuelva sobre si misma.
@@ -72,9 +72,9 @@ document.onkeydown = (e) =>{
     direction = DIRECCIÓN[e.key]
     selectedKey(e.key);
     const [x, y] = direction
-    if(-x !== controles.direccion.x && -y !== controles.direccion.y){
-        controles.direccion.x = x;
-        controles.direccion.y = y;
+    if(-x !== controls.direccion.x && -y !== controls.direccion.y){
+        controls.direccion.x = x;
+        controls.direccion.y = y;
     }
 }
 
@@ -84,19 +84,19 @@ function selectedKey (e) {
     switch (key) {
         case "A":
         case "ARROWLEFT":
-            clickBtn(izquierda);
+            clickBtn(left);
             break;
         case "ARROWDOWN":
         case "S":
-            clickBtn(fondo);
+            clickBtn(down);
             break;
         case "ARROWUP":
         case "W":
-            clickBtn(superior);
+            clickBtn(up);
             break;
         case "ARROWRIGHT":
         case "D":
-            clickBtn(derecha);
+            clickBtn(right);
             break;
     }
 }
@@ -111,15 +111,15 @@ function clickBtn (btn){
 
 // mueve la serpiente cada 80 milisegundos
 let looper = () => {
-    let cola = {};
-    Object.assign(cola, controles.bicho[controles.bicho.length -1])
-    const sq = controles.bicho[0];
-    let atrapado = sq.x === controles.victima.x && sq.y === controles.victima.y
-    if(choque()){
+    let tail = {};
+    Object.assign(tail, controls.snake[controls.snake.length -1])
+    const sq = controls.snake[0];
+    let isTrapped = sq.x === controls.victim.x && sq.y === controls.victim.y
+    if(crash()){
         score = 1;
         scoreDiv.innerHTML=("SCORE: ");
-        controles.jugando = false;
-        modalCierre.show();
+        controls.playing = false;
+        gameOver.show();
         document.getElementById('nameModalFinal').innerHTML= "¡Congratulations! " + namePlayer;
         document.getElementById('scoreFinal').innerHTML= "Score: " + scoreFinal;
         var person = new Person(namePlayer, scoreFinal);
@@ -127,68 +127,68 @@ let looper = () => {
         updateTable(arrayPersons);
         return;
     } 
-    let dx = controles.direccion.x;
-    let dy = controles.direccion.y;
-    let tamaño = controles.bicho.length -1;
-    if(controles.jugando){
+    let dx = controls.direccion.x;
+    let dy = controls.direccion.y;
+    let tamaño = controls.snake.length -1;
+    if(controls.playing){
         for(let idx = tamaño; idx>-1; idx--){
-            const sq = controles.bicho[idx];
+            const sq = controls.snake[idx];
             if (idx === 0){
                 sq.x += dx;
                 sq.y += dy;
             } else {
-                sq.x = controles.bicho[idx-1].x;
-                sq.y = controles.bicho[idx-1].y;
+                sq.x = controls.snake[idx-1].x;
+                sq.y = controls.snake[idx-1].y;
             }
         }
     }
-    if (atrapado){
-        controles.crecimiento += 1
-        revictima()
+    if (isTrapped){
+        controls.increase += 1
+        revictim()
         scoreFinal = score;
         scoreDiv.innerHTML=("SCORE: " + score++);
     }
-    if (controles.crecimiento >0){
-        controles.bicho.push(cola)
-        controles.crecimiento -=1
+    if (controls.increase >0){
+        controls.snake.push(tail)
+        controls.increase -=1
     }
-    requestAnimationFrame(dibujar);
-    setTimeout(looper, INTERVALO);
+    requestAnimationFrame(draw);
+    setTimeout(looper, INTERVAL);
 }
 
 // metodo que dibuja la serpiente
-let dibujar = () => {
-	context.clearRect(0,0,ANCHO,ANCHO)
-    for (let idx =0; idx < controles.bicho.length; idx ++){
-        const {x, y} = controles.bicho[idx]
-        dibujarActores("#5D8233", x, y)
+let draw = () => {
+	context.clearRect(0,0,WIDTH,WIDTH)
+    for (let idx =0; idx < controls.snake.length; idx ++){
+        const {x, y} = controls.snake[idx]
+        drawActors("#5D8233", x, y)
     }
-    const victima = controles.victima   
-    dibujarActores("#CD113B", victima.x, victima.y)
+    const victim = controls.victim   
+    drawActors("#CD113B", victim.x, victim.y)
 }
 
-let dibujarActores = (color, x, y) => {
+let drawActors = (color, x, y) => {
     context.fillStyle = color;
-    context.fillRect(x*PESO, y*PESO, PESO, PESO)
+    context.fillRect(x*WEIGHT, y*WEIGHT, WEIGHT, WEIGHT)
 }
 
 // cuando come la victima, la reposiciona en otro lado.
-let revictima = () => {
-    let nuevaPosicion = random ();
-    let victima = controles.victima;
-    victima.x = nuevaPosicion.x;
-    victima.y = nuevaPosicion.y;
+let revictim = () => {
+    let newPosition = random ();
+    let victim = controls.victim;
+    victim.x = newPosition.x;
+    victim.y = newPosition.y;
 }
 
-let choque = () =>{
-    const head = controles.bicho[0]
+let crash = () =>{
+    const head = controls.snake[0]
     // para verificar que no salga del canvas
-    if(head.x <0 || head.x >=ANCHO/PESO || head.y<0 || head.y>=ANCHO/PESO ){
+    if(head.x <0 || head.x >=WIDTH/WEIGHT || head.y<0 || head.y>=WIDTH/WEIGHT ){
         return true;
     }
     // for para verificar que no choque sobre si misma
-    for(let idx = 1; idx < controles.bicho.length; idx ++){
-        const sq = controles.bicho[idx];
+    for(let idx = 1; idx < controls.snake.length; idx ++){
+        const sq = controls.snake[idx];
         if (sq.x === head.x && sq.y === head.y){
             return true;
         }
@@ -200,39 +200,39 @@ let choque = () =>{
 let random = () => {
     let direc = Object.values(DIRECCIÓN);
     return {
-        x: parseInt(Math.random()*ANCHO/PESO),
-        y: parseInt(Math.random()*ANCHO/PESO),
+        x: parseInt(Math.random()*WIDTH/WEIGHT),
+        y: parseInt(Math.random()*WIDTH/WEIGHT),
         d: direc[parseInt(Math.random()*11)]
     }
 }
 
 // funcion que reincia el juego en caso de choque 
-let reiniciar = () =>{
-    controles = {direccion: {x:1, y:0}, bicho:[{x:0, y:0}], victima:{x:0, y:250}, jugando: false, crecimiento: 0}
+let restart = () =>{
+    controls = {direccion: {x:1, y:0}, snake:[{x:0, y:0}], victim:{x:0, y:250}, playing: false, increase: 0}
     // random de la serpiente
-    posiciones = random();
-    let head = controles.bicho[0]
-    head.x = posiciones.x;
-    head.y = posiciones.y;
-    controles.direccion.x = posiciones.d[0];
-    controles.direccion.y = posiciones.d[1];
+    positions = random();
+    let head = controls.snake[0]
+    head.x = positions.x;
+    head.y = positions.y;
+    controls.direccion.x = positions.d[0];
+    controls.direccion.y = positions.d[1];
     // random de la victima
-    posicionVictima = random();
-    let victima = controles.victima;
-    victima.x = posicionVictima.x;
-    victima.y = posicionVictima.y;
-    controles.jugando = true;
+    victimPosition = random();
+    let victim = controls.victim;
+    victim.x = victimPosition.x;
+    victim.y = victimPosition.y;
+    controls.playing = true;
 }
 
-botonModal.addEventListener('click', function(){
+buttonModal.addEventListener('click', function(){
     namePlayer = document.getElementById('name').value;
     modal.hide();
-    reiniciar();
+    restart();
     looper();
 })
 
 buttonClose.addEventListener('click', function(){
-    modalCierre.hide();
+    gameOver.hide();
     modal.show()
 })
 
@@ -240,16 +240,13 @@ buttonClose.addEventListener('click', function(){
 window.onload = () => {
     if (isScreenValid()) {
         modal.show()
-        modalCierre.hide();
+        gameOver.hide();
     } else {
         game.classList.add("invisible");
         error.classList.remove("invisible");
         swal("Oops!", "To play this game you must have a screen with a minimum of 997px", "error");
     }
 }
-
-// ideas
-// con score a la hora de aumentar velocidad, si score es mayor a 5 duplicar velocidad etc.
 
 // para agregar a la tabla
 function updateTable (arrayPersons){
