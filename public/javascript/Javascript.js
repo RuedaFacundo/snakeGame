@@ -9,6 +9,8 @@ let derecha = document.getElementById('derecha');
 let scoreDiv = document.getElementById('score');
 let modalCierre = new bootstrap.Modal(document.getElementById('ModalCierre'), {});
 let buttonClose = document.getElementById('buttonClose');
+let game = document.getElementById('game');
+let error = document.getElementById('error');
 let namePlayer = "";
 let scoreFinal = 0;
 
@@ -236,8 +238,14 @@ buttonClose.addEventListener('click', function(){
 
 // cuando carga la web ejecuta looper
 window.onload = () => {
-    modal.show()
-    modalCierre.hide();
+    if (isScreenValid()) {
+        modal.show()
+        modalCierre.hide();
+    } else {
+        game.classList.add("invisible");
+        error.classList.remove("invisible");
+        swal("Oops!", "To play this game you must have a screen with a minimum of 997px", "error");
+    }
 }
 
 // ideas
@@ -256,22 +264,38 @@ function updateTable (arrayPersons){
     });
     deleteRow();
 
-    for (let i = 1; i <= arrayPersons.length && i < 6; i++) {
+    for (let i = 0; i <= arrayPersons.length && i < 6; i++) {
         addrow(i, arrayPersons[i]);
     }
 }
 
 function addrow(number, arrayPersons){
     var table = document.getElementById("table");
-    var row = table.insertRow(0);
-    row.innerHTML = "<td>"+ number + "</td><td>" + arrayPersons.name + "</td><td>" + arrayPersons.score + "</td>";
+    var file = document.createElement('tr')
+    var celNumber = document.createElement('td')
+    var cellName = document.createElement('td')
+    var cellScore = document.createElement('td')
+    var number = document.createTextNode(number)
+    var name = document.createTextNode(arrayPersons.name)
+    var score = document.createTextNode(arrayPersons.score)
+    celNumber.appendChild(number)
+    cellName.appendChild(name)
+    cellScore.appendChild(score)
+    file.appendChild(celNumber)
+    file.appendChild(cellName)
+    file.appendChild(cellScore)
+    table.appendChild(file)
 }
 
 function deleteRow(){
     var table = document.getElementById("table");
     var rowCount = table.rows.length;
     
-    if(rowCount > 1){
+    if(rowCount >= 1){
         table.deleteRow(rowCount -1);
     }
+}
+
+function isScreenValid (){
+    return (screen.width < 997) ? false : true ;
 }

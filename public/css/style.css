@@ -149,3 +149,7 @@ canvas {
 .titulo {
     font-size: 35px;
 }
+
+.invisible {
+    display: none;
+}
