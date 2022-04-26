@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&family=Palette+Mosaic&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     
@@ -90,7 +91,7 @@
   <section id="error" class="invisible">
     <div class="score" style="width: 35vh; height: 35vh; flex-wrap: wrap;">
       <img src="/public/images/error.png" alt="" width="160vh" height="100vh">
-      <p style="color: #ECD662">To play this game you must have a screen with a minimum of 997px</p>
+      <p style="color: #ECD662">To play this game your screen width must be at least 1024px</p>
     </div>
   </section>
 
@@ -124,7 +125,6 @@
     <div class="modal-content">
       <div class="modal-header backgroundModal">
         <h3 class="modal-title" id="nameModalFinal"></h3>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body backgroundModal">
         <form class="row g-3 needs-validation" novalidate>

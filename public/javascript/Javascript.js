@@ -11,6 +11,7 @@ let gameOver = new bootstrap.Modal(document.getElementById('gameOver'), {});
 let buttonClose = document.getElementById('buttonClose');
 let game = document.getElementById('game');
 let error = document.getElementById('error');
+var table = document.getElementById("table");
 let namePlayer = "";
 let scoreFinal = 0;
 
@@ -37,9 +38,12 @@ DIRECCIÓN = {
     ArrowLeft: [-1, 0], 
 }
 
-function Person(name, score) {
-    this.name = name;
-    this.score = score;
+class Person {
+    constructor(name, score) {
+        this.name = name;
+        this.score = score;
+    }
+
 }
 
 let arrayPersons = new Array();
@@ -122,6 +126,7 @@ let looper = () => {
         gameOver.show();
         document.getElementById('nameModalFinal').innerHTML= "¡Congratulations! " + namePlayer;
         document.getElementById('scoreFinal').innerHTML= "Score: " + scoreFinal;
+        deleteRow();
         var person = new Person(namePlayer, scoreFinal);
         arrayPersons.push(person);
         updateTable(arrayPersons);
@@ -143,7 +148,7 @@ let looper = () => {
         }
     }
     if (isTrapped){
-        controls.increase += 1
+        controls.increase += 5
         revictim()
         scoreFinal = score;
         scoreDiv.innerHTML=("SCORE: " + score++);
@@ -244,7 +249,7 @@ window.onload = () => {
     } else {
         game.classList.add("invisible");
         error.classList.remove("invisible");
-        swal("Oops!", "To play this game you must have a screen with a minimum of 997px", "error");
+        swal("Oops!", "To play this game your screen width must be at least 1024px", "error");
     }
 }
 
@@ -259,38 +264,35 @@ function updateTable (arrayPersons){
         }
         return 0;
     });
-    deleteRow();
 
-    for (let i = 0; i <= arrayPersons.length && i < 6; i++) {
-        addrow(i, arrayPersons[i]);
+    for (let i = 0; (table.rows.length < 4) && (i < 4); i++) {
+        if(i <  arrayPersons.length){
+            setTimeout(addrow(i, arrayPersons[i]), 4000);
+        } else {
+            return;
+        }
+    }
+}
+
+function deleteRow(){
+    var rowCount = table.rows.length;
+    console.log('Cantidad de filas: ' + rowCount);
+    for (i=0; i < rowCount ; i++){
+        $('#table').empty();
+        console.log('removi la fila')
     }
 }
 
 function addrow(number, arrayPersons){
-    var table = document.getElementById("table");
-    var file = document.createElement('tr')
-    var celNumber = document.createElement('td')
-    var cellName = document.createElement('td')
-    var cellScore = document.createElement('td')
-    var number = document.createTextNode(number)
-    var name = document.createTextNode(arrayPersons.name)
-    var score = document.createTextNode(arrayPersons.score)
-    celNumber.appendChild(number)
-    cellName.appendChild(name)
-    cellScore.appendChild(score)
-    file.appendChild(celNumber)
-    file.appendChild(cellName)
-    file.appendChild(cellScore)
-    table.appendChild(file)
-}
 
-function deleteRow(){
-    var table = document.getElementById("table");
-    var rowCount = table.rows.length;
-    
-    if(rowCount >= 1){
-        table.deleteRow(rowCount -1);
-    }
+    var numberStart = number+1;
+    var filePerson = '<tr>'+
+    '<td>' + numberStart + '</td>'+
+    '<td>' + arrayPersons.name + '</td>'+
+    '<td>' + arrayPersons.score + '</td>'+
+    '</tr>';
+
+    $('#table').append(filePerson);
 }
 
 function isScreenValid (){
