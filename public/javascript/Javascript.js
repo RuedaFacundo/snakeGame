@@ -12,6 +12,7 @@ let buttonClose = document.getElementById('buttonClose');
 let game = document.getElementById('game');
 let error = document.getElementById('error');
 var table = document.getElementById("table");
+let play = document.getElementById('play');
 let namePlayer = "";
 let scoreFinal = 0;
 
@@ -130,6 +131,7 @@ let looper = () => {
         var person = new Person(namePlayer, scoreFinal);
         arrayPersons.push(person);
         updateTable(arrayPersons);
+        scoreFinal = 0;
         return;
     } 
     let dx = controls.direccion.x;
@@ -238,13 +240,16 @@ buttonModal.addEventListener('click', function(){
 
 buttonClose.addEventListener('click', function(){
     gameOver.hide();
+})
+
+play.addEventListener('click', function(){
+    gameOver.hide();
     modal.show()
 })
 
 // cuando carga la web ejecuta looper
 window.onload = () => {
     if (isScreenValid()) {
-        modal.show()
         gameOver.hide();
     } else {
         game.classList.add("invisible");
@@ -256,18 +261,18 @@ window.onload = () => {
 // para agregar a la tabla
 function updateTable (arrayPersons){
     arrayPersons.sort(function (a, b) {
-        if (a.name > b.name) {
-            return 1;
-        }
-        if (a.name < b.name) {
+        if (a.score > b.score) {
             return -1;
+        }
+        if (a.score < b.score) {
+            return 1;
         }
         return 0;
     });
 
     for (let i = 0; (table.rows.length < 4) && (i < 4); i++) {
         if(i <  arrayPersons.length){
-            setTimeout(addrow(i, arrayPersons[i]), 4000);
+            addrow(i, arrayPersons[i]);
         } else {
             return;
         }

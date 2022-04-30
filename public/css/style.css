@@ -11,7 +11,7 @@ header {
     justify-content: space-around;
     text-align: center;
     align-items: center;
-    font-family: 'Palette Mosaic', cursive;
+    font-family: 'Tapestry', cursive;
 
 }
 
@@ -79,7 +79,7 @@ canvas {
 
 .joystick {
     display: flex;
-    height: 150px;
+    height: 100px;
     align-items: center;
     justify-content: center;
 }
@@ -152,4 +152,9 @@ canvas {
 
 .invisible {
     display: none;
+}
+
+.playGame:hover {
+    transform: translateY(4px);
+    border: none;
 }
