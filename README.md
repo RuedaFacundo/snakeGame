@@ -2,6 +2,8 @@
 
 <img src="https://i.imgur.com/V5C3Dmy.png">  </img>
 
+___
+
 El siguiente juego fue desarrollado con las siguientes ***tecnologías***:
 
 <p align="left"> 
@@ -13,12 +15,15 @@ El siguiente juego fue desarrollado con las siguientes ***tecnologías***:
   <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a>
 </p>
 
+___
+
 - Para el campo de juego se utilizó un canvas con HTML, el cual se encarga de dibujar cada 80 milisegundos el camino de la víbora. 
 
 - Para la tabla de puntaje, se realizó de forma dinámica con la librería Jquery, para que agregue las filas con los datos necesarios
 
 - Link al juego: https://serpiente-juego.web.app/
 
+___
   
 <h3 align="left">Contacto:</h3>
 <p align="left">
