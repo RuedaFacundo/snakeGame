@@ -40,14 +40,13 @@ DIRECCIÓN = {
 }
 
 class Person {
-    constructor(name, score) {
+    constructor(position, name, score) {
+        this.position = position;
         this.name = name;
         this.score = score;
     }
 
 }
-
-let arrayPersons = new Array();
 
 // Eventos para los botones de movimiento
 up.addEventListener('click', function() {clickBtn(up); joystick(0, -1); }) 
@@ -128,9 +127,7 @@ let looper = () => {
         document.getElementById('nameModalFinal').innerHTML= "¡Congratulations! " + namePlayer;
         document.getElementById('scoreFinal').innerHTML= "Score: " + scoreFinal;
         deleteRow();
-        var person = new Person(namePlayer, scoreFinal);
-        arrayPersons.push(person);
-        updateTable(arrayPersons);
+        obtenerDatosApi()
         scoreFinal = 0;
         return;
     } 
@@ -260,22 +257,14 @@ window.onload = () => {
 
 // para agregar a la tabla
 function updateTable (arrayPersons){
-    arrayPersons.sort(function (a, b) {
-        if (a.score > b.score) {
-            return -1;
-        }
-        if (a.score < b.score) {
-            return 1;
-        }
-        return 0;
-    });
-
-    for (let i = 0; (table.rows.length < 4) && (i < 4); i++) {
-        if(i <  arrayPersons.length){
-            addrow(i, arrayPersons[i]);
-        } else {
-            return;
-        }
+    for (let i = 0; i < arrayPersons.length ; i++) {
+        var filePerson = '<tr>'+
+        '<td>' + arrayPersons[i].position + '</td>'+
+        '<td>' + arrayPersons[i].name + '</td>'+
+        '<td>' + arrayPersons[i].score + '</td>'+
+        '</tr>';
+    
+        $('#table').append(filePerson);
     }
 }
 
@@ -288,18 +277,21 @@ function deleteRow(){
     }
 }
 
-function addrow(number, arrayPersons){
-
-    var numberStart = number+1;
-    var filePerson = '<tr>'+
-    '<td>' + numberStart + '</td>'+
-    '<td>' + arrayPersons.name + '</td>'+
-    '<td>' + arrayPersons.score + '</td>'+
-    '</tr>';
-
-    $('#table').append(filePerson);
-}
-
 function isScreenValid (){
     return (screen.width < 997) ? false : true ;
+}
+
+function obtenerDatosApi() {
+    let datosApi = fetch('http://localhost:5000/player/top');
+    datosApi.then((res) =>{
+        return res.json();
+    }).then((json)=>{
+        arrayPersons = new Array();
+        for(let player of json){
+            var person = new Person(player.position, player.name, player.score);
+            arrayPersons.push(person);
+        }
+        updateTable(arrayPersons);
+    }).catch(() => "Fallo el obtener datos a la API de resultados");
+    
 }
