@@ -127,7 +127,7 @@ let looper = () => {
         document.getElementById('nameModalFinal').innerHTML= "¡Congratulations! " + namePlayer;
         document.getElementById('scoreFinal').innerHTML= "Score: " + scoreFinal;
         deleteRow();
-        obtenerDatosApi()
+        savePlayer("http://localhost:5000/player", data = { name: namePlayer, score: scoreFinal } );
         scoreFinal = 0;
         return;
     } 
@@ -294,4 +294,15 @@ function obtenerDatosApi() {
         updateTable(arrayPersons);
     }).catch(() => "Fallo el obtener datos a la API de resultados");
     
+}
+
+async function savePlayer(url, data) {
+    const response = await fetch(url, {
+        method: 'POST', 
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    obtenerDatosApi();
 }
