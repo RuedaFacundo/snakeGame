@@ -127,7 +127,7 @@ let looper = () => {
         document.getElementById('nameModalFinal').innerHTML= "¡Congratulations! " + namePlayer;
         document.getElementById('scoreFinal').innerHTML= "Score: " + scoreFinal;
         deleteRow();
-        savePlayer("http://localhost:5000/player", data = { name: namePlayer, score: scoreFinal } );
+        savePlayer("https://apisnakegame.herokuapp.com/player", data = { name: namePlayer, score: scoreFinal } );
         scoreFinal = 0;
         return;
     } 
@@ -282,7 +282,7 @@ function isScreenValid (){
 }
 
 function obtenerDatosApi() {
-    let datosApi = fetch('http://localhost:5000/player/top');
+    let datosApi = fetch('https://apisnakegame.herokuapp.com/player/top');
     datosApi.then((res) =>{
         return res.json();
     }).then((json)=>{
